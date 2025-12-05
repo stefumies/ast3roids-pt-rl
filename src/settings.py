@@ -1,6 +1,6 @@
 from os.path import join
 from pathlib import Path
-
+from random import randint, uniform
 from pyray import *
 from raylib import *
 
