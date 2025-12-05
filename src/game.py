@@ -15,12 +15,13 @@ class Game:
         self.textures = get_game_textures_map()
         self.sounds = get_game_sounds_map()
 
-    def generate_starfield_data(self) -> list[tuple[Vector2, float]]:
+    @staticmethod
+    def generate_starfield_data() -> list[tuple[Vector2, float]]:
         star_data = [
             (
                 Vector2(randint(0, WINDOW_WIDTH), randint(0, WINDOW_HEIGHT)),
-                uniform(0.4, 1.2)
-            ) for i in range(30)
+                uniform(0.5, 1.2)
+            ) for _ in range(30)
         ]
         return star_data
 
