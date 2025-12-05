@@ -26,4 +26,4 @@ class Timer:
             if get_time() - self.start_time >= self.duration:
                 if self.callback and self.start_time:
                     self.callback()
-            self.deactivate()
+                self.deactivate()

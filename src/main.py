@@ -1,4 +1,5 @@
 from settings import *
+from game_timer import Timer
 from sprites import Player, Lazer
 
 
@@ -9,10 +10,11 @@ class Game:
         self.textures = {}
         self.sounds = {}
         self.import_assets()
+        self.lazers = []
+        self.meteor_timer = Timer(METEOR_TIMER_DURATION, True, True, self.generate_meteor)
         self.player = Player(self.textures.get("spaceship"), Vector2(WINDOW_WIDTH // 2, WINDOW_HEIGHT / 2),
                              self.fire_lazer)
         self.star_data = self.generate_starfield_data()
-        self.lazers = []
 
     def import_assets(self):
         self.textures = get_game_textures_map()
@@ -32,6 +34,9 @@ class Game:
         for star, pos in self.star_data:
             draw_texture_ex(self.textures.get("star"), star, 0, pos, WHITE)
 
+    def generate_meteor(self):
+        print("Generating Meteor")
+
     def fire_lazer(self, pos):
         self.lazers.append(Lazer(self.textures.get("laser"), pos))
         play_sound(self.sounds.get("laser",(None, None)))
@@ -41,11 +46,11 @@ class Game:
 
     def update(self):
         dt = get_frame_time()
+        self.meteor_timer.update()
         self.player.update(dt)
         self.discard_sprites()
         for lazer in self.lazers:
             lazer.update(dt)
-        print(len(self.lazers))
 
     def draw(self):
         begin_drawing()
