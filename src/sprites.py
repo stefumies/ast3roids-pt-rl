@@ -53,3 +53,9 @@ class Lazer(Sprite):
         super().__init__(texture, position, LASER_SPEED, Vector2(0, -1))
 
 
+class Meteor(Sprite):
+    def __init__(self, texture):
+        position = Vector2(randint(0, WINDOW_WIDTH),randint(-150, -50))
+        speed = randint(*METEOR_SPEED_RANGE)
+        direction = Vector2(uniform(-0.5, 0.5),1 )
+        super().__init__(texture, position, speed, direction)
