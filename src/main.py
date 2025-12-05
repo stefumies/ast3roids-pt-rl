@@ -34,27 +34,34 @@ class Game:
 
     def fire_lazer(self, pos):
         self.lazers.append(Lazer(self.textures.get("laser"), pos))
-        play_sound(self.sounds.get("laser"))
+        play_sound(self.sounds.get("laser",(None, None)))
+
+    def discard_sprites(self):
+        self.lazers = [lazer for lazer in self.lazers if not lazer.discard]
 
     def update(self):
         dt = get_frame_time()
         self.player.update(dt)
+        self.discard_sprites()
         for lazer in self.lazers:
             lazer.update(dt)
+        print(len(self.lazers))
 
     def draw(self):
         begin_drawing()
         clear_background(BG_COLOR)
         self.draw_starfield()
+        self.player.draw()
         for lazer in self.lazers:
             lazer.draw()
-        self.player.draw()
         end_drawing()
 
     def run(self):
         while not window_should_close():
             self.update()
             self.draw()
+        unload_game_sounds()
+        unload_game_textures()
         close_window()
 
 

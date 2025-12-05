@@ -1,6 +1,6 @@
 from os.path import join
 from pathlib import Path
-from random import randint, uniform
+from random import randint, choice,uniform
 from pyray import *
 from raylib import *
 
@@ -11,19 +11,19 @@ PLAYER_SPEED = 500
 LASER_SPEED = 600
 METEOR_SPEED_RANGE = (100, 300)
 METEOR_TIMER_DURATION = 0.4
+DISCARD_LIMIT = 300
 
 GAME_ASSETS_PATH = "../assets"
 
+def get_game_music_stream(name):
+    return load_music_stream(join(GAME_ASSETS_PATH,"music", name))
 
 def get_game_sounds_map():
     loc = Path(join(GAME_ASSETS_PATH, "audio"))
     return {
-        p.stem: (
-            load_music_stream(str(p))
-            if "stream" in p.stem.lower()
-            else load_sound(str(p))
-        )
-        for p in loc.glob("*.wav")
+        p.stem:
+            load_sound(str(p))
+            for p in loc.glob("*.wav")
     }
 
 
@@ -39,11 +39,7 @@ def get_game_textures_map():
 
 def unload_game_sounds():
     for sound in get_game_sounds_map().values():
-        if isinstance(sound, AudioStream):
-            unload_audio_stream(sound)
-        else:
-            unload_sound(sound)
-
+          unload_sound(sound)
 
 def unload_game_textures():
     for texture in get_game_textures_map().values():

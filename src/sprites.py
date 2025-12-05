@@ -8,6 +8,10 @@ class Sprite:
         self.speed = speed
         self.direction = direction
         self.size = Vector2(texture.width, texture.height)
+        self.discard = False
+
+    def check_discard(self):
+        self.discard = not -DISCARD_LIMIT < self.position.y < WINDOW_HEIGHT + DISCARD_LIMIT
 
     def update(self, delta_time):
         pass
@@ -31,7 +35,7 @@ class Player(Sprite):
         self.direction = Vector2Normalize(self.direction)
 
         if is_key_pressed(KEY_SPACE):
-            self.action_callback(Vector2((self.position.x + self.size.x/ 2)-5, self.position.y - 20))
+            self.action_callback(Vector2((self.position.x + self.size.x / 2) - 5, self.position.y - 60))
 
         self.position.x = clamp(self.position.x, 0, WINDOW_WIDTH - self.size.x)
         self.position.y = clamp(self.position.y, 0, WINDOW_HEIGHT - self.size.y)
@@ -39,6 +43,7 @@ class Player(Sprite):
     def update(self, delta_time):
         self.input()
         self.move(delta_time)
+        self.check_discard()
 
 
 # ------------------------------------------------------------------------------------
