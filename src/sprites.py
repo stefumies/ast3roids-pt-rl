@@ -7,6 +7,7 @@ class Sprite:
         self.position = position
         self.speed = speed
         self.direction = direction
+        self.size = Vector2(texture.width, texture.height)
 
     def update(self, delta_time):
         pass
@@ -30,6 +31,9 @@ class Player(Sprite):
 
         if is_key_pressed(KEY_SPACE):
             print("Laser fired!")  # Placeholder for laser firing logic
+
+        self.position.x = clamp(self.position.x, 0, WINDOW_WIDTH - self.size.x)
+        self.position.y = clamp(self.position.y, 0, WINDOW_HEIGHT - self.size.y)
 
     def update(self, delta_time):
         self.input()
