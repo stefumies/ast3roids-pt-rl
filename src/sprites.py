@@ -11,10 +11,11 @@ class Sprite:
         self.discard = False
 
     def check_discard(self):
-        self.discard = not -DISCARD_LIMIT < self.position.y < WINDOW_HEIGHT + DISCARD_LIMIT
+        self.discard = not (-DISCARD_LIMIT < self.position.y < WINDOW_HEIGHT + DISCARD_LIMIT)
 
     def update(self, delta_time):
-        pass
+        self.move(delta_time)
+        self.check_discard()
 
     def draw(self):
         draw_texture_v(self.texture, self.position, WHITE)
@@ -51,5 +52,4 @@ class Lazer(Sprite):
     def __init__(self, texture, position):
         super().__init__(texture, position, LASER_SPEED, Vector2(0, -1))
 
-    def update(self, delta_time):
-        self.move(delta_time)
+
